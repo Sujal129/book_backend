@@ -12,12 +12,23 @@ const app = express();
 
 // app.use(cors());
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-   credentials: true
-}));
+// app.use(cors({
+//   origin: '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//    credentials: true
+// }));
+
+var whitelist = ['https://book-store-rho-beryl.vercel.app/', '*']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 app.use(express.json());
 
 dotenv.config();
@@ -36,7 +47,7 @@ app.get("/", (req, res) => {
 });
 
 // login route
-app.post("/user/login", async (req, res) => {
+app.post("/user/login",cors(corsOptionsDelegate), async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -73,7 +84,7 @@ app.post("/user/login", async (req, res) => {
 });
 
 
-app.get("/users", async (req, res) => {
+app.get("/users",cors(corsOptionsDelegate), async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
