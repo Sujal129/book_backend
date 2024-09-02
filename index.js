@@ -10,7 +10,10 @@ import User from "./model/user.model.js"; // Assuming User model is located in m
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://book-store-rho-beryl.vercel.app'
+}));
 app.use(express.json());
 
 dotenv.config();
