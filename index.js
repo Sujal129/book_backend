@@ -19,7 +19,7 @@ const app = express();
 //    credentials: true
 // }));
 
-var whitelist = ['https://book-store-rho-beryl.vercel.app/', '*']
+var whitelist = ['https://book-store-rho-beryl.vercel.app/', 'https://book-store-rho-beryl.vercel.app']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
