@@ -54,8 +54,46 @@ app.get("/", (req, res) => {
   res.send("Welcome to the API!");
 });
 
+// user/signup route
+
+app.post("/user/signup", async (req, res) => {
+  try {
+    const {fullname, email, password } = req.body;
+
+    // Validate input
+    if (!fullname ||!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Already exist account" });
+    }
+
+    // Check the password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Return success response with the token
+    res.status(200).json({ message: "signup successful", user, token });
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // login route
-app.post("/",cors(corsOptionsDelegate), async (req, res) => {
+app.post("/user/login",cors(corsOptionsDelegate), async (req, res) => {
   try {
     const { email, password } = req.body;
 
