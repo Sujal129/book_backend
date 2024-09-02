@@ -11,11 +11,12 @@ import User from "./model/user.model.js"; // Assuming User model is located in m
 const app = express();
 
 // app.use(cors());
+
 app.use(cors({
-  origin: 'https://book-store-rho-beryl.vercel.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+   credentials: true
 }));
 app.use(express.json());
 
