@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 });
 
 // login route
-app.post("/user/login",cors(corsOptionsDelegate), async (req, res) => {
+app.post("/",cors(corsOptionsDelegate), async (req, res) => {
   try {
     const { email, password } = req.body;
 
