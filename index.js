@@ -23,7 +23,15 @@ var whitelist = ['https://book-store-rho-beryl.vercel.app/', '*']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+    corsOptions = { origin: true,
+   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  exposedHeaders: ['Content-Range', 'X-Content-Range'], // Exposed headers
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  maxAge: 86400, // Max age in seconds (1 day)
+  preflightContinue: false, // Pass the CORS preflight response to the next handler
+  optionsSuccessStatus: 204 // Use 204 status code for successful OPTIONS requests
+  } 
   } else {
     corsOptions = { origin: false } // disable CORS for this request
   }
