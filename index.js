@@ -12,7 +12,10 @@ const app = express();
 
 // app.use(cors());
 app.use(cors({
-  origin: 'https://book-store-rho-beryl.vercel.app'
+  origin: 'https://book-store-rho-beryl.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 app.use(express.json());
 
