@@ -11,11 +11,13 @@ import User from "./model/user.model.js"; // Assuming User model is located in m
 import { MongoClient, ServerApiVersion } from "mongodb";
 import bodyParser from "body-parser";
 
+
 const app = express();
 // app.use(cors());
 // Optionally configure CORS to allow specific origins
 const corsOptions = {
-  origin: "https://buy-book-two.vercel.app",
+  // origin: "https://buy-book-two.vercel.app",
+  origin: "http://localhost:5173",
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: true,
@@ -27,9 +29,9 @@ app.use(bodyParser.json());
 // Middleware to parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const uri =
+const uri = "mongodb+srv://sujalgupta9211:sujalgupta9211@cluster0.v2wk8zb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   // "mongodb+srv://akash2884182:akash2884182@cluster0.my8k9ww.mongodb.net/books";
-  "mongodb+srv://akash2884182:akash2884182@cluster0.my8k9ww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; //isi me chala thA initially
+  // "mongodb+srv://akash2884182:akash2884182@cluster0.my8k9ww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; //isi me chala thA initially
 
 const PORT = process.env.PORT || 4000;
 const URI = process.env.MongoDB_URI || uri;
@@ -134,6 +136,7 @@ app.get("/users", async (req, res) => {
 });
 
 
+
 const connectWithRetry = () => {
   console.log("Attempting to connect to MongoDB...");
   mongoose
@@ -155,3 +158,6 @@ app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
   connectWithRetry(); // Initiate MongoDB connection with retry logic
 });
+
+
+
